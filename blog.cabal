@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 4385bbaeb0bd79fad5ca5fcbe94459cb109ab8a4031bae47968885333c0f4d65
+-- hash: a034181df062ed3ae13a457ab872c9f95dc7e1395b2ed752595f5c6a29e237aa
 
 name:           blog
 version:        0.1.0.0
@@ -41,6 +41,7 @@ library
     , base >=4.7 && <5
     , configurator
     , postgresql-simple
+    , postgresql-simple-migration
     , resource-pool
     , scotty
     , text
@@ -62,6 +63,7 @@ executable blog-exe
     , blog
     , configurator
     , postgresql-simple
+    , postgresql-simple-migration
     , resource-pool
     , scotty
     , text
@@ -82,6 +84,7 @@ test-suite blog-test
     , blog
     , configurator
     , postgresql-simple
+    , postgresql-simple-migration
     , resource-pool
     , scotty
     , text

@@ -6,9 +6,10 @@ import Control.Monad.IO.Class
 import qualified Data.Configurator as C
 import qualified Data.Configurator.Types as C
 import Data.Pool (createPool)
-import Database.PostgreSQL.Simple (close)
+import Data.Word (Word16)
+import Database.PostgreSQL.Simple (close, withTransaction)
+import Database.PostgreSQL.Simple.Migration
 import Db
-import GHC.Word (Word16)
 import Web.Scotty
 
 makeDbConfig :: C.Config -> IO (Maybe Db.DbConfig)
@@ -19,7 +20,7 @@ makeDbConfig conf = do
   user <- C.lookup conf "database.user" :: IO (Maybe String)
   password <- C.lookup conf "database.pass" :: IO (Maybe String)
 
-  return $
+  pure $
     DbConfig <$> host
       <*> port
       <*> name
@@ -34,7 +35,13 @@ main = do
   case dbConf of
     Nothing -> putStrLn "No database configuration found, terminating..."
     Just conf -> do
-      pool <- createPool (newConn conf) close 1 64 10
+      conn <- newConn conf
+      let dir = "./migrations"
+
+      withTransaction conn $
+        runMigrations True conn [MigrationInitialization, MigrationDirectory dir]
+
+      pool <- createPool (pure conn) close 1 64 10
 
       scotty 3000 $ do
         get "/articles" $ do

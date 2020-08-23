@@ -1,13 +1,13 @@
 module Db where
 
+import Data.Int
 import Data.Pool (Pool, withResource)
 import qualified Data.Text.Internal.Lazy as Tl
+import Data.Word (Word16)
 import Database.PostgreSQL.Simple
 import qualified Database.PostgreSQL.Simple as P
 import Domain
 import GHC.Generics (Generic)
-import GHC.Int
-import GHC.Word (Word16)
 
 data DbConfig = DbConfig
   { dbHost :: String,
@@ -55,7 +55,5 @@ execSql pool args sql = withResource pool ins
 
 listArticles :: Pool Connection -> IO [Article]
 listArticles pool = do
-  res <- fetchSimple pool "SELECT * FROM article ORDER BY id DESC" :: IO [(Integer, Tl.Text, Tl.Text)]
-  return $ map (\(id, title, content) -> Article {articleId = id, title = title, content = content}) res
-
--- Why id illegal?
+  res <- fetchSimple pool "SELECT * FROM articles ORDER BY id DESC" :: IO [(Integer, Tl.Text, Tl.Text)]
+  pure $ map (\(id, title, content) -> Article id title content) res

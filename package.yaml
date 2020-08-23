@@ -24,6 +24,7 @@ dependencies:
 - scotty
 - configurator
 - postgresql-simple
+- postgresql-simple-migration
 - resource-pool
 - text
 - aeson
