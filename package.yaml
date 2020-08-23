@@ -26,6 +26,7 @@ dependencies:
 - postgresql-simple
 - resource-pool
 - text
+- aeson
 
 library:
   source-dirs: src

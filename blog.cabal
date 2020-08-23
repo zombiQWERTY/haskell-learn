@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3c7cbd47dd87e7c413ebcce27efe42a580eff22ea092024171675a478311ae3d
+-- hash: 4385bbaeb0bd79fad5ca5fcbe94459cb109ab8a4031bae47968885333c0f4d65
 
 name:           blog
 version:        0.1.0.0
@@ -37,7 +37,8 @@ library
   default-extensions: OverloadedStrings LambdaCase ScopedTypeVariables DeriveGeneric NamedFieldPuns
   ghc-options: -Wall -Wno-name-shadowing -Wno-unused-do-bind -Werror=incomplete-patterns
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , configurator
     , postgresql-simple
     , resource-pool
@@ -56,7 +57,8 @@ executable blog-exe
   default-extensions: OverloadedStrings LambdaCase ScopedTypeVariables DeriveGeneric NamedFieldPuns
   ghc-options: -Wall -Wno-name-shadowing -Wno-unused-do-bind -Werror=incomplete-patterns -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , blog
     , configurator
     , postgresql-simple
@@ -75,7 +77,8 @@ test-suite blog-test
   default-extensions: OverloadedStrings LambdaCase ScopedTypeVariables DeriveGeneric NamedFieldPuns
   ghc-options: -Wall -Wno-name-shadowing -Wno-unused-do-bind -Werror=incomplete-patterns -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , blog
     , configurator
     , postgresql-simple

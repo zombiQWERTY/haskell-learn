@@ -57,4 +57,5 @@ listArticles :: Pool Connection -> IO [Article]
 listArticles pool = do
   res <- fetchSimple pool "SELECT * FROM article ORDER BY id DESC" :: IO [(Integer, Tl.Text, Tl.Text)]
   return $ map (\(id, title, content) -> Article {articleId = id, title = title, content = content}) res
+
 -- Why id illegal?
