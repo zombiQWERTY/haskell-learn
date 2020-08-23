@@ -1,0 +1,85 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 3c7cbd47dd87e7c413ebcce27efe42a580eff22ea092024171675a478311ae3d
+
+name:           blog
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/blog#readme>
+homepage:       https://github.com/githubuser/blog#readme
+bug-reports:    https://github.com/githubuser/blog/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2020 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/blog
+
+library
+  exposed-modules:
+      Db
+      Domain
+      Main
+  other-modules:
+      Paths_blog
+  hs-source-dirs:
+      src
+  default-extensions: OverloadedStrings LambdaCase ScopedTypeVariables DeriveGeneric NamedFieldPuns
+  ghc-options: -Wall -Wno-name-shadowing -Wno-unused-do-bind -Werror=incomplete-patterns
+  build-depends:
+      base >=4.7 && <5
+    , configurator
+    , postgresql-simple
+    , resource-pool
+    , scotty
+    , text
+  default-language: Haskell2010
+
+executable blog-exe
+  main-is: Main.hs
+  other-modules:
+      Db
+      Domain
+      Paths_blog
+  hs-source-dirs:
+      src
+  default-extensions: OverloadedStrings LambdaCase ScopedTypeVariables DeriveGeneric NamedFieldPuns
+  ghc-options: -Wall -Wno-name-shadowing -Wno-unused-do-bind -Werror=incomplete-patterns -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , blog
+    , configurator
+    , postgresql-simple
+    , resource-pool
+    , scotty
+    , text
+  default-language: Haskell2010
+
+test-suite blog-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_blog
+  hs-source-dirs:
+      test
+  default-extensions: OverloadedStrings LambdaCase ScopedTypeVariables DeriveGeneric NamedFieldPuns
+  ghc-options: -Wall -Wno-name-shadowing -Wno-unused-do-bind -Werror=incomplete-patterns -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , blog
+    , configurator
+    , postgresql-simple
+    , resource-pool
+    , scotty
+    , text
+  default-language: Haskell2010
