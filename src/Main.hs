@@ -35,13 +35,14 @@ main = do
   case dbConf of
     Nothing -> putStrLn "No database configuration found, terminating..."
     Just conf -> do
-      conn <- newConn conf
       let dir = "./migrations"
+      let default_conn = newConn conf
+      migrations_conn <- newConn conf
 
-      withTransaction conn $
-        runMigrations True conn [MigrationInitialization, MigrationDirectory dir]
+      withTransaction migrations_conn $
+        runMigrations True migrations_conn [MigrationInitialization, MigrationDirectory dir]
 
-      pool <- createPool (pure conn) close 1 64 10
+      pool <- createPool default_conn close 1 64 10
 
       scotty 3000 $ do
         get "/articles" $ do
