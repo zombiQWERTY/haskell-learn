@@ -2,15 +2,15 @@
 
 module Main where
 
-import Control.Monad.IO.Class
 import qualified Data.Configurator as C
 import qualified Data.Configurator.Types as C
-import Data.Pool (createPool)
+import Data.Pool (Pool, createPool)
 import Data.Word (Word16)
-import Database.PostgreSQL.Simple (close, withTransaction)
+import Database.PostgreSQL.Simple (Connection, close, withTransaction)
 import Database.PostgreSQL.Simple.Migration
 import Db
-import Web.Scotty
+import Handler
+import Web.Scotty (scotty)
 
 makeDbConfig :: C.Config -> IO (Maybe Db.DbConfig)
 makeDbConfig conf = do
@@ -27,6 +27,15 @@ makeDbConfig conf = do
       <*> user
       <*> password
 
+makeMigrations :: IO (Connection) -> FilePath -> IO (MigrationResult String)
+makeMigrations conn dir = do
+  c <- conn
+  withTransaction c $
+    runMigrations True c [MigrationInitialization, MigrationDirectory dir]
+
+makeDbPool :: IO Connection -> IO (Pool Connection)
+makeDbPool conn = createPool conn close 1 64 10
+
 main :: IO ()
 main = do
   loadedConf <- C.load [C.Required "application.conf"]
@@ -35,16 +44,8 @@ main = do
   case dbConf of
     Nothing -> putStrLn "No database configuration found, terminating..."
     Just conf -> do
-      let dir = "./migrations"
-      let default_conn = newConn conf
-      migrations_conn <- newConn conf
-
-      withTransaction migrations_conn $
-        runMigrations True migrations_conn [MigrationInitialization, MigrationDirectory dir]
-
-      pool <- createPool default_conn close 1 64 10
-
-      scotty 3000 $ do
-        get "/articles" $ do
-          articles <- liftIO $ listArticles pool
-          json articles
+      makeMigrations conn "./migrations"
+      pool <- makeDbPool conn
+      scotty 3000 $ makeHandlers pool
+      where
+        conn = newConn conf

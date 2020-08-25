@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a034181df062ed3ae13a457ab872c9f95dc7e1395b2ed752595f5c6a29e237aa
+-- hash: 344ce411ea88835fec2c97a7f9bde066ac3fc929f8f5d2e0b5cbe139e6eb5f7c
 
 name:           blog
 version:        0.1.0.0
@@ -29,6 +29,7 @@ library
   exposed-modules:
       Db
       Domain
+      Handler
       Main
   other-modules:
       Paths_blog
@@ -52,6 +53,7 @@ executable blog-exe
   other-modules:
       Db
       Domain
+      Handler
       Paths_blog
   hs-source-dirs:
       src
