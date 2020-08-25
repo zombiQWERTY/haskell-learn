@@ -8,6 +8,7 @@ import Database.PostgreSQL.Simple
 import qualified Database.PostgreSQL.Simple as P
 import Domain
 import GHC.Generics (Generic)
+import Data.Bifunctor (Bifunctor(bimap))
 
 data DbConfig = DbConfig
   { dbHost :: String,
@@ -61,6 +62,5 @@ execSql pool args sql = tryExec $ withResource pool ins
 listArticles :: Pool Connection -> IO (Either SomeException [Article])
 listArticles pool = do
   res <- fetchSimple pool "SELECT * FROM articles ORDER BY id DESC"
-  pure $ case res of
-    Left e -> Left e
-    Right r -> Right $ map (\(id, title, content) -> Article id title content) r
+  pure $ bimap id (map (\(id, title, content) -> Article id title content)) res
+  
