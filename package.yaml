@@ -28,6 +28,7 @@ dependencies:
 - resource-pool
 - text
 - aeson
+- bytestring
 
 library:
   source-dirs: src

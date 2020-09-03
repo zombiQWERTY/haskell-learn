@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 344ce411ea88835fec2c97a7f9bde066ac3fc929f8f5d2e0b5cbe139e6eb5f7c
+-- hash: 1c300317dcc0d41accf508e6741174e7be21a57fcb10407bf942ef2f2c08340f
 
 name:           blog
 version:        0.1.0.0
@@ -40,6 +40,7 @@ library
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
     , configurator
     , postgresql-simple
     , postgresql-simple-migration
@@ -63,6 +64,7 @@ executable blog-exe
       aeson
     , base >=4.7 && <5
     , blog
+    , bytestring
     , configurator
     , postgresql-simple
     , postgresql-simple-migration
@@ -84,6 +86,7 @@ test-suite blog-test
       aeson
     , base >=4.7 && <5
     , blog
+    , bytestring
     , configurator
     , postgresql-simple
     , postgresql-simple-migration
